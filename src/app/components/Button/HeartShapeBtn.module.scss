@@ -3,3 +3,24 @@
     background: none;
     border: none;
 }
+
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+@media (max-width:768px){
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+}
+
+@media (max-width:1024px){
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+}

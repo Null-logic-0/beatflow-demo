@@ -1,31 +1,77 @@
 .container {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 18px;
-    
+
 }
 
-.text{
+.text {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-width: 100px;
-    width: 100%;
+    width: 133px;
+
 }
 
 .img {
-    border-radius: 10px;
+    border-radius: 8px;
+    width: 134px;
+    height: 112px;
+    object-fit: cover;
+
 }
 
 .title {
     color: #fff;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .artist {
-    color: #fff;
-    font-size: 14px;
+    color: #D5CFEB;
+    font-size: 20px;
     font-weight: 400;
 
+}
+
+
+@media (max-width:768px) {
+    .heartBtn {
+        display: none;
+    }
+
+
+    .img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .text {
+        display: none;
+
+    }
+
+}
+
+@media (max-width:1024px) {
+
+
+    .img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .text {
+        width: 110px;
+
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .artist {
+        font-size: 16px;
+    }
 }

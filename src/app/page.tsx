@@ -7,6 +7,7 @@ import IndexPage from "./components/MusicPlayer/IndexPage";
 export default function Home() {
   return (
     <main>
+      
 
       <IndexPage/>
       

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 import style from './HeartShapeBtn.module.scss';
 
-// Define the props interface
 interface Props {
   isActive: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  className?:string;
 }
 
-export default function HeartShapeBtn ({ isActive, isDisabled, onClick }: Props) {
+export default function HeartShapeBtn ({ isActive, isDisabled, onClick,className }: Props) {
   const [isClicked, setIsClicked] = useState(false);
 
   const getIconSource = () => {
@@ -31,15 +31,16 @@ export default function HeartShapeBtn ({ isActive, isDisabled, onClick }: Props)
 
   return (
     <button
-      className={style.btn}
+      className={`${style.btn} ${className}`}
       onClick={handleClick}
       disabled={isDisabled}
     >
       <Image
         src={getIconSource()}
         alt="Heart Icon"
-        width={32}
-        height={32}
+        width={0}
+        height={0}
+        className={style.icon}
       />
     </button>
   );

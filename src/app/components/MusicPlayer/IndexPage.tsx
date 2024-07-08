@@ -1,7 +1,7 @@
-// pages/index.tsx
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Controls from './Contorls';
+import Contorls from './Contorls';
 import TrackDisplay from './TrackDisplay';
+import VolumeControl from './VolumeControl';
 import style from './IndexPage.module.scss';
 
 const tracks = [
@@ -10,6 +10,12 @@ const tracks = [
         artist: 'Desireless',
         albumArt: '/music/DesirelessCover.jpg',
         audio: '/music/Desireless.mp3',
+    },
+    {
+        title: 'Enjoy The Silence',
+        artist: 'Depeche Mode',
+        albumArt: '/music/D.jpg',
+        audio: '/music/EnjoyTheSilence.mp3',
     },
     {
         title: 'Tourner Dans Le Vide',
@@ -31,7 +37,7 @@ const tracks = [
     },
 ];
 
-const IndexPage: React.FC = () => {
+const IndexPage = () => {
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(50);
@@ -130,28 +136,20 @@ const IndexPage: React.FC = () => {
         }
     }, []);
 
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
+    const handleDoubleClick = useCallback(() => {
+        const newTime = Math.min(currentTime + 10, duration);
+        handleTimeChange(newTime);
+    }, [currentTime, duration, handleTimeChange]);
 
     return (
         <div className={style.main}>
-
             <div className={style.container}>
-
-                
                 <TrackDisplay currentTrack={currentTrack} />
-
-
-                <Controls
+                <Contorls
                     isPlaying={isPlaying}
                     onPlayPause={playPause}
                     onNext={playNextTrack}
                     onPrevious={playPrevious}
-                    onVolumeChange={handleVolumeChange}
-                    volume={volume}
                     isLooping={isLooping}
                     onToggleLoop={toggleLoop}
                     isShuffling={isShuffling}
@@ -159,16 +157,15 @@ const IndexPage: React.FC = () => {
                     currentTime={currentTime}
                     duration={duration}
                     onTimeChange={handleTimeChange}
+                    onDoubleClick={handleDoubleClick}
                 />
-
+                <VolumeControl volume={volume} onVolumeChange={handleVolumeChange} />
                 <audio
                     ref={audioRef}
                     src={currentTrack.audio}
                     onError={() => console.error('Audio failed to load')}
                 />
-
             </div>
-
         </div>
     );
 };

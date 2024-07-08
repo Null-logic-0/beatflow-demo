@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import ProgressBar from './ProgressBar';
 import style from './Contorls.module.scss';
 
 interface Props {
@@ -7,8 +8,6 @@ interface Props {
     onPlayPause: () => void;
     onPrevious: () => void;
     onNext: () => void;
-    onVolumeChange: (volume: number) => void;
-    volume: number;
     isLooping: boolean;
     onToggleLoop: () => void;
     isShuffling: boolean;
@@ -16,6 +15,7 @@ interface Props {
     currentTime: number;
     duration: number;
     onTimeChange: (newTime: number) => void;
+    onDoubleClick: () => void;
 }
 
 const Controls = ({
@@ -23,8 +23,6 @@ const Controls = ({
     onPlayPause,
     onPrevious,
     onNext,
-    onVolumeChange,
-    volume,
     isLooping,
     onToggleLoop,
     isShuffling,
@@ -32,76 +30,35 @@ const Controls = ({
     currentTime,
     duration,
     onTimeChange,
+    onDoubleClick,
 }: Props) => {
-    const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newVolume = parseInt(e.target.value, 10);
-        onVolumeChange(newVolume);
-    };
-
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    };
-
-    const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newTime = parseFloat(e.target.value);
-        onTimeChange(newTime);
-    };
-
     return (
-        <>
-
-            <div className={style.container}>
-
-                <div className={style.buttons}>
-                    <button onClick={onToggleShuffle} className={style.btn}>
-                        <Image src={isShuffling ? "/shuffleA.svg" : "/shuffle.png"} alt="Shuffle" width={24} height={24} />
-                    </button>
-                    <button onClick={onPrevious} className={style.btn}>
-                        <Image src="/previous.png" alt="Previous" width={24} height={24} />
-                    </button>
-                    <button onClick={onPlayPause} className={`${style.btn} ${style.circle}`}>
-                        <Image src={isPlaying ? "/pause.svg" : "/Play.png"} alt={isPlaying ? "Pause" : "Play"} width={28} height={28} />
-                    </button>
-                    <button onClick={onNext} className={style.btn}>
-                        <Image src="/previous-next.png" alt="Next" width={24} height={24} />
-                    </button>
-                    <button onClick={onToggleLoop} className={style.btn}>
-                        <Image src={isLooping ? "/repeat-one.png" : "/repeat.png"} alt="Loop" width={24} height={24} />
-                    </button>
-                </div>
-
-                <div className={style.time}>
-                    <span className={style.timing}>{formatTime(currentTime)}</span>
-                    <input
-                        type="range"
-                        min="0"
-                        max={duration}
-                        value={currentTime}
-                        onChange={handleTimeChange}
-                        aria-label="Seek"
-                        className={style.load}
-                    />
-                    <span className={style.timing}>{formatTime(duration)}</span>
-                </div>
-
+        <div className={style.container}>
+            <div className={style.buttons}>
+                <button onClick={onToggleShuffle} className={style.btn}>
+                    <Image src={isShuffling ? "/shuffle1.svg" : "/shuffle.svg"} alt="Shuffle" width={0} height={0} className={style.loop} />
+                </button>
+                <button onClick={onPrevious} className={style.btn}>
+                    <Image src="/back.svg" alt="Previous" width={0} height={0} className={style.next} />
+                </button>
+                <button onClick={onPlayPause} className={`${style.btn} ${style.circle}`}>
+                    <Image src={isPlaying ? "/pause.svg" : "/Play.svg"} alt={isPlaying ? "Pause" : "Play"} width={0} height={0} className={style.pause} />
+                </button>
+                <button onClick={onNext} className={style.btn}>
+                    <Image src="/next.svg" alt="Next" width={0} height={0} className={style.next} />
+                </button>
+                <button onClick={onToggleLoop} className={style.btn}>
+                    <Image src={isLooping ? "/repeat1.svg" : "/repeat.svg"} alt="Loop" width={0} height={0} className={style.loop} />
+                </button>
             </div>
-
-
-            <div className={style.volume}>
-                <Image src="/volume-loud.png" alt="Volume" width={24} height={24} />
-                <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                    aria-label="Volume"
-                    className={style.volSetting}
-                />
-            </div>
-        </>
+            <ProgressBar
+                currentTime={currentTime}
+                duration={duration}
+                onTimeChange={onTimeChange}
+                onDoubleClick={onDoubleClick}
+                className={style.progressBarHide}
+            />
+        </div>
     );
 };
 
